@@ -2492,23 +2492,27 @@
         console.log("Recherche en cours pour :", companyName);
 
         try {
-            const response = await fetch("https://imaginative-haupia-8e685c.netlify.app/.netlify/functions/search-openai", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ companyName }),
+            // ...existing code...
+            const response = await fetch("/.netlify/functions/search-openai", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ companyName }),
             });
 
-            console.log("Réponse brute de l'API :", response);
-
             if (!response.ok) {
-                const errorDetails = await response.json();
+                const text = await response.text();
+                let errorDetails;
+                try {
+                    errorDetails = JSON.parse(text);
+                } catch {
+                    errorDetails = { message: text };
+                }
                 console.error("Erreur API :", errorDetails);
-                throw new Error(errorDetails.error?.message || "Erreur lors de l'appel à l'API OpenAI");
+                throw new Error(errorDetails.error?.message || errorDetails.message || "Erreur lors de l'appel à l'API OpenAI");
             }
 
             const data = await response.json();
+            // ...suite du code...
             console.log("Données reçues de l'API :", data);
 
             const companies = data.choices[0].message.content.trim().split("\n");
