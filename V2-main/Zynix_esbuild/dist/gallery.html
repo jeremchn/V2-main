@@ -2492,7 +2492,7 @@
         console.log("Recherche en cours pour :", companyName);
 
         try {
-            const response = await fetch("/.netlify/functions/search-openai", {
+            const response = await fetch("../../netlify/functions/search-openai", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
