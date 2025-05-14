@@ -2471,6 +2471,9 @@
 
 <script>
 
+    const OPENAI_API_KEY = import.meta.env.VITE_OPENAI_API_KEY;
+
+
     async function searchSimilarCompanies() {
         const companyName = document.getElementById("companyInput").value.trim();
         const loader = document.getElementById("loader");
